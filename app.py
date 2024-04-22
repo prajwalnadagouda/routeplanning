@@ -24,11 +24,11 @@ def getroutes():
 
             for i in range(1,23,10):
                 timeDetails={}
-                timeDetails['StartPoint']='abc'
-                timeDetails['EndPoint']='def'
+                timeDetails['StartPoint']=("ABC","37.350167","-121.923513")
+                timeDetails['EndPoint']=("DEF","37.322546","-122.031882")
                 timeDetails['Time']=str(i)+":23"
                 timeDetails['PeopleCount']=50
-                timeDetails['Stops']=['qwe','rty','uio']
+                timeDetails['Stops']=[("ABC","37.350167","-121.923513"),("XYZ","37.331077","-121.997805"),("qwe","37.334693","-121.988087"),("DEF","37.322546","-122.031882")]
                 dayRoute.append(timeDetails)
 
             routes[day]=dayRoute
