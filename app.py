@@ -7,7 +7,7 @@ CORS(app)
 
 @app.route('/globalmodelstatus', methods=['GET'])
 def getglobalmodelstatus():
-    return "1:30"
+    return "2024-04-29 01:30:23"
     performers={}
     return jsonify(performers)
 
