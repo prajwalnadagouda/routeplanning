@@ -24,7 +24,7 @@ def getroutes():
         Days=['Monday','Tuesday','Wednesday','Thursday','Friday']
         routes={}
         data = request.json
-        area=str(data['name'])
+        area=str(data['area'])
         print(data['capacity'])
         areapincodes=getpincode(area)
         startPoint=areapincodes[0]
