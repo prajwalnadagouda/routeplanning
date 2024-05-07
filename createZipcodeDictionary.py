@@ -19,5 +19,5 @@ def read_csv_to_dict():
 area_zip_dict = read_csv_to_dict()
 print(area_zip_dict)
 
-with open('pincode_dictionary.pkl', 'wb') as f:
+with open('./storage/pincode_dictionary.pkl', 'wb') as f:
     pickle.dump(area_zip_dict, f)

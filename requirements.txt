@@ -3,3 +3,4 @@ Flask-CORS
 Gunicorn
 pyzipcode
 zipcodes
+geopy
