@@ -4,3 +4,4 @@ Gunicorn
 pyzipcode
 zipcodes
 geopy
+pandas
