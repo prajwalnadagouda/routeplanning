@@ -40,6 +40,7 @@ def updateweights():
 
 @app.route('/globalmodelstatus', methods=['GET'])
 def getglobalmodelstatus():
+    
     return "2024-04-29 01:30:23"
 
 
@@ -67,7 +68,6 @@ def getroutes():
                 timeDetails={}
                 timeDetails['StartPoint']=(str(startPointName),str(startPointLat),str(startPointLong))
                 timeDetails['EndPoint']=(str(endPointName),str(endPointLat),str(endPointLong))
-                timeDetails['Time']=str(i)+":23"
                 timeDetails['PeopleCount']=50
                 timeDetails['Stops']=[timeDetails['StartPoint'],getaddress(areapincodes[1]),getaddress(areapincodes[2]),timeDetails['EndPoint']]
                 dayRoute.append(timeDetails)
