@@ -7,6 +7,7 @@ import pandas as pd
 
 from routinghelp import getstartpincode
 from routinghelp import getaddress
+from routinghelp import getpath
 
 app = Flask(__name__)
 CORS(app)
@@ -28,21 +29,19 @@ def updateweights():
             if key in oldWeight:
                 oldWeight[key] = oldWeight[key] + new_value
             else:
-                print("bow")
+                print("issues")
         oldWeight = {key: (value / (oldCount+1)) for key, value in oldWeight.items()}
         # print(sum(oldWeight.values()))
         with open('./storage/weight.pkl', 'wb') as f:
             pickle.dump([oldWeight,oldCount+1], f)
-        return "done"
+        return "SUCCESS"
     except:
-        return "none"
+        return "FAILURE"
 
 
 @app.route('/globalmodelstatus', methods=['GET'])
 def getglobalmodelstatus():
-    
     return "2024-04-29 01:30:23"
-
 
 
 @app.route('/routes', methods=['POST'])
@@ -56,20 +55,23 @@ def getroutes():
         capacity=(data['capacity'])
         areapincodes=getstartpincode(area)
 
-        startPoint=areapincodes[0]
-        startPointName,startPointLat,startPointLong=getaddress(str(startPoint))
-
-        endPoint=areapincodes[-1]
-        endPointName,endPointLat,endPointLong=getaddress(str(endPoint))
 
         for day in Days:
             dayRoute=[]
-            for i in range(1,23,10):
+            for i in range(4):
                 timeDetails={}
-                timeDetails['StartPoint']=(str(startPointName),str(startPointLat),str(startPointLong))
-                timeDetails['EndPoint']=(str(endPointName),str(endPointLat),str(endPointLong))
+                startPoint=areapincodes[i]
+                endPoint=areapincodes[3-i]
+
+                timeDetails['StartPoint']=getaddress(str(startPoint))
+                timeDetails['EndPoint']=getaddress(str(endPoint))
                 timeDetails['PeopleCount']=50
-                timeDetails['Stops']=[timeDetails['StartPoint'],getaddress(areapincodes[1]),getaddress(areapincodes[2]),timeDetails['EndPoint']]
+
+                timeDetails['Stops']=[timeDetails['StartPoint']]
+                path=getpath(timeDetails['StartPoint'],timeDetails['EndPoint'])
+                for eachpath in path:
+                    timeDetails['Stops'].append(eachpath)
+                timeDetails['Stops'].append(timeDetails['EndPoint'])
                 dayRoute.append(timeDetails)
             routes[day]=dayRoute
         return jsonify(routes)

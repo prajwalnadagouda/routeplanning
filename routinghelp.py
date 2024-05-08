@@ -1,6 +1,6 @@
 import pickle
 import zipcodes
-from geopy.geocoders import Nominatim
+import math 
 
 #given area , get list of pincodes that belong that area.
 def getpincode(area):
@@ -9,10 +9,10 @@ def getpincode(area):
     return(pincode_dict[area])
 
 
+#give address based on zipcode
 def getaddress(zipcode):
     try:
         zipcode=str(zipcode)
-        geolocator = Nominatim(user_agent="png")
         zipInfo=zipcodes.matching(str(zipcode))[0]
         lat=zipInfo['lat']
         long=zipInfo['long']
@@ -23,29 +23,27 @@ def getaddress(zipcode):
             address=(zipcodeAddress[zipcode])
         except Exception as e:
             address=str(zipcode)
-
-
-    ##Too slow
-        # location = geolocator.reverse(str(lat)+","+str(long))
-        # if 'road' in location.raw['address']:
-        #     if 'town' in location.raw['address']:
-        #         address=str(location.raw['address']['road'])+", "+str(location.raw['address']['town'])
-        #     elif 'village' in location.raw['address']:
-        #         address=str(location.raw['address']['road'])+", "+str(location.raw['address']['village'])
-        #     else:
-        #         address=str(location.raw['address']['road'])+", "+str(location.raw['address']['city'])
-        # elif 'county' in location.raw['address']:
-        #     address=str(location.raw['address']['county'])
-        # else:
-        #     address=str(zipcode)
-        return(address,lat,long)
+        return(str(address),str(lat),str(long))
 
     except Exception as e:
         print(e)
         return str(zipcode)
 
 
+def betweenpoints(lat1, lon1, lat2, lon2):
+    lat1, lon1, lat2, lon2 = map(math.radians, [float(lat1), float(lon1), float(lat2), float(lon2)])
+    mid_lat = (lat1 + lat2) / 2
+    mid_lon = (lon1 + lon2) / 2
+    return str(math.degrees(mid_lat)), str(math.degrees(mid_lon))
 
+def  getpath(start,end):
+    try:
+        mLat,mLong=betweenpoints(start[1],start[2],end[1],end[2])
+        q1Lat,q1Long=betweenpoints(start[1],start[2],mLat,mLong)
+        q2Lat,q2Long=betweenpoints(mLat,mLong,end[1],end[2])
+        return[("near "+start[0],q1Lat,q1Long),("midway "+end[0],mLat,mLong),("near "+end[0],q2Lat,q2Long)]
+    except:
+        return []
 
 def getstartpincode(area):
     try:
