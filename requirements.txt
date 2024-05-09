@@ -5,3 +5,5 @@ pyzipcode
 zipcodes
 geopy
 pandas
+torch
+scikit-learn

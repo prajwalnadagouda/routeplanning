@@ -73,7 +73,6 @@ def getroutes():
         capacity=(data['capacity'])
         areapincodes=getstartpincode(area)
 
-
         for day in Days:
             dayRoute=[]
             for i in range(4):
