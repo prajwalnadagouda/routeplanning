@@ -1,6 +1,7 @@
 import pickle
 import zipcodes
 import math 
+import pandas as pd
 
 #given area , get list of pincodes that belong that area.
 def getpincode(area):
@@ -63,5 +64,10 @@ def getstartpincode(area):
     
 
 def getpeoplecount(workingdate):
-    print(workingdate)
-    return 50
+    try:
+        df = pd.read_csv("./nextpredict.csv", parse_dates=['Date'], dayfirst=False)
+        idx=df.index[df['Date'] == str(workingdate)].tolist()[0]
+        countp = df['BusCommuters'].iloc[idx]
+        return int(countp)
+    except:
+        return 100

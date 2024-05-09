@@ -76,25 +76,27 @@ def getroutes():
 
         currentDate = datetime.now()
 
-        for day in Days:
-            dayRoute=[]
-            peopleCount=getpeoplecount(currentDate.strftime('%m/%d/%y'))
-            for i in range(4):
-                timeDetails={}
-                startPoint=areapincodes[i]
-                endPoint=areapincodes[3-i]
+        for day in range(7):
+            if(currentDate.weekday()!=5 and currentDate.weekday()!=6):
+                dayRoute=[]
+                peopleCount=getpeoplecount(currentDate.strftime('%m/%d/%y'))
+                placecount=4
+                for i in range(placecount):
+                    timeDetails={}
+                    startPoint=areapincodes[i]
+                    endPoint=areapincodes[3-i]
 
-                timeDetails['StartPoint']=getaddress(str(startPoint))
-                timeDetails['EndPoint']=getaddress(str(endPoint))
-                timeDetails['PeopleCount']=peopleCount
+                    timeDetails['StartPoint']=getaddress(str(startPoint))
+                    timeDetails['EndPoint']=getaddress(str(endPoint))
+                    timeDetails['PeopleCount']=int(((placecount-i)*peopleCount)/10)
 
-                timeDetails['Stops']=[timeDetails['StartPoint']]
-                path=getpath(timeDetails['StartPoint'],timeDetails['EndPoint'])
-                for eachpath in path:
-                    timeDetails['Stops'].append(eachpath)
-                timeDetails['Stops'].append(timeDetails['EndPoint'])
-                dayRoute.append(timeDetails)
-            routes[currentDate.strftime("%A")]=dayRoute
+                    timeDetails['Stops']=[timeDetails['StartPoint']]
+                    path=getpath(timeDetails['StartPoint'],timeDetails['EndPoint'])
+                    for eachpath in path:
+                        timeDetails['Stops'].append(eachpath)
+                    timeDetails['Stops'].append(timeDetails['EndPoint'])
+                    dayRoute.append(timeDetails)
+                routes[currentDate.strftime("%A")]=dayRoute
             currentDate=currentDate+timedelta(days=1)
         return jsonify(routes)
     except Exception as e:
