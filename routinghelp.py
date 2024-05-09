@@ -60,3 +60,8 @@ def getstartpincode(area):
         return [newlist[-1],newlist[-2],newlist[-3],newlist[-4]]
     except Exception as e:
         return []
+    
+
+def getpeoplecount(workingdate):
+    print(workingdate)
+    return 50

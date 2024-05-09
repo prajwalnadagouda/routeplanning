@@ -33,11 +33,11 @@ def create_inout_sequences(input_data, tw):
         inout_seq.append((train_seq ,train_label))
     return inout_seq
 
-def getPredictions():
+def getpredictions():
     model = LSTM()
     model.load_state_dict(torch.load('./modelweight.pth'))
     train_window = 28   
-    fut_pred = 7
+    fut_pred = 8
     model.eval()
 
     current_date = datetime.now().date()

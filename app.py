@@ -8,7 +8,8 @@ import pandas as pd
 from routinghelp import getstartpincode
 from routinghelp import getaddress
 from routinghelp import getpath
-from prediction import getPredictions
+from prediction import getpredictions
+from routinghelp import getpeoplecount
 
 app = Flask(__name__)
 CORS(app)
@@ -55,7 +56,7 @@ def getglobalmodelstatus():
 @app.route('/predict', methods=['GET'])
 def predict():
     try:
-        getPredictions()
+        getpredictions()
         return "SUCCESS"
     except:
         return "FAILURE"
@@ -73,8 +74,11 @@ def getroutes():
         capacity=(data['capacity'])
         areapincodes=getstartpincode(area)
 
+        currentDate = datetime.now()
+
         for day in Days:
             dayRoute=[]
+            peopleCount=getpeoplecount(currentDate.strftime('%m/%d/%y'))
             for i in range(4):
                 timeDetails={}
                 startPoint=areapincodes[i]
@@ -82,7 +86,7 @@ def getroutes():
 
                 timeDetails['StartPoint']=getaddress(str(startPoint))
                 timeDetails['EndPoint']=getaddress(str(endPoint))
-                timeDetails['PeopleCount']=50
+                timeDetails['PeopleCount']=peopleCount
 
                 timeDetails['Stops']=[timeDetails['StartPoint']]
                 path=getpath(timeDetails['StartPoint'],timeDetails['EndPoint'])
@@ -90,7 +94,8 @@ def getroutes():
                     timeDetails['Stops'].append(eachpath)
                 timeDetails['Stops'].append(timeDetails['EndPoint'])
                 dayRoute.append(timeDetails)
-            routes[day]=dayRoute
+            routes[currentDate.strftime("%A")]=dayRoute
+            currentDate=currentDate+timedelta(days=1)
         return jsonify(routes)
     except Exception as e:
         print(e)
