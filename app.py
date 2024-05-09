@@ -88,7 +88,7 @@ def getroutes():
 
                     timeDetails['StartPoint']=getaddress(str(startPoint))
                     timeDetails['EndPoint']=getaddress(str(endPoint))
-                    timeDetails['PeopleCount']=int(((placecount-i)*peopleCount)/10)
+                    timeDetails['PeopleCount']=int(((placecount-i)*peopleCount)/10000)
 
                     timeDetails['Stops']=[timeDetails['StartPoint']]
                     path=getpath(timeDetails['StartPoint'],timeDetails['EndPoint'])
