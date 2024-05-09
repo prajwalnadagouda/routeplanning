@@ -35,23 +35,20 @@ def create_inout_sequences(input_data, tw):
         inout_seq.append((train_seq ,train_label))
     return inout_seq
 
-if __name__== "__main__":
+def getPredictions():
     model = LSTM()
     model.load_state_dict(torch.load('./modelweight.pth'))
     train_window = 28   
     fut_pred = 7
     model.eval()
 
-#
     current_date = datetime.now().date()
     yesterday_date = current_date - timedelta(days=1)
     df = pd.read_csv("./nextpredict.csv", parse_dates=['Date'], dayfirst=False)
-    # df = pd.read_csv("./pastdata1.csv", parse_dates=['Date'], dayfirst=False)
     idx=df.index[df['Date'] == str(yesterday_date)].tolist()[0]
     test_inputs = df['BusCommuters'].iloc[(idx-train_window+1):idx+1].to_numpy()
     test_write=test_inputs.tolist()
     print(test_write)
-#
     
     scaler = MinMaxScaler(feature_range=(-1, 1))
     train_data_normalized = scaler.fit_transform(test_inputs .reshape(-1, 1))

@@ -8,6 +8,7 @@ import pandas as pd
 from routinghelp import getstartpincode
 from routinghelp import getaddress
 from routinghelp import getpath
+from prediction import getPredictions
 
 app = Flask(__name__)
 CORS(app)
@@ -41,7 +42,24 @@ def updateweights():
 
 @app.route('/globalmodelstatus', methods=['GET'])
 def getglobalmodelstatus():
-    return "2024-04-29 01:30:23"
+    if(os.path.isfile("./nextpredict.csv")):
+        print("hello")
+        timeModified = os.path.getmtime("./nextpredict.csv")
+        modificationDatetime = datetime.fromtimestamp(timeModified)
+        formattedDatetime = modificationDatetime.strftime('%Y-%m-%d %H:%M:%S')
+        return formattedDatetime
+    else:
+        return "2024-04-29 01:30:23"
+    
+
+@app.route('/predict', methods=['GET'])
+def predict():
+    try:
+        getPredictions()
+        return "SUCCESS"
+    except:
+        return "FAILURE"
+
 
 
 @app.route('/routes', methods=['POST'])
