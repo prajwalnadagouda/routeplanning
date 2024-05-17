@@ -73,3 +73,6 @@ def getpredictions():
 
         for i in range(len(actual_predictions)):
             python_file.write(str(int(actual_predictions[i][0]))+","+str((current_date+timedelta(days=i)).strftime('%m/%d/%Y'))+"\n")
+
+
+# getpredictions()

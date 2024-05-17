@@ -56,7 +56,7 @@ def getglobalmodelstatus():
 @app.route('/predict', methods=['GET'])
 def predict():
     try:
-        # getpredictions()
+        getpredictions()
         return "SUCCESS"
     except:
         return "FAILURE"
