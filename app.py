@@ -56,7 +56,7 @@ def getglobalmodelstatus():
 @app.route('/predict', methods=['GET'])
 def predict():
     try:
-        getpredictions()
+        # getpredictions()
         return "SUCCESS"
     except:
         return "FAILURE"
@@ -71,7 +71,7 @@ def getroutes():
         data = request.json
         area=str(data['area']).replace(" ","")
         print(area)
-        capacity=(data['capacity'])
+        # capacity=(data['capacity'])
         areapincodes=getstartpincode(area)
 
         currentDate = datetime.now()
